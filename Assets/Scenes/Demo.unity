@@ -1272,25 +1272,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LevelList:
-  - {fileID: 11400000, guid: 0d380b280b3cf264aa6f1e90088582a7, type: 2}
-  - {fileID: 11400000, guid: b646c8bde55a9894998ff085bc82aae3, type: 2}
-  - {fileID: 11400000, guid: 3ac27134627181c41875d622c13db3f1, type: 2}
-  - {fileID: 11400000, guid: 6910744564cb2244fb11e796a884991d, type: 2}
-  - {fileID: 11400000, guid: adb9e49867e7c2b4c936df3aa9b180f1, type: 2}
-  - {fileID: 11400000, guid: 6b908c98bc153c24ab02ba392d108b02, type: 2}
-  - {fileID: 11400000, guid: b1b8d115ff6694a4ab57430c9b16b03d, type: 2}
-  - {fileID: 11400000, guid: 77bee2a07f98915468d14d2f0337a64c, type: 2}
-  - {fileID: 11400000, guid: ed071154ee764344587bb98ed7ce02ec, type: 2}
-  - {fileID: 11400000, guid: 2566309ec4df48544882750e0b10e301, type: 2}
-  - {fileID: 11400000, guid: e04574328b00bef4a813139d34fab6ea, type: 2}
-  - {fileID: 11400000, guid: 9e1f25d5fc5ee08458c365f32c61ebc8, type: 2}
-  - {fileID: 11400000, guid: a92c61cda679bc8419f865a38d4112e6, type: 2}
-  - {fileID: 11400000, guid: 4c4f9157e0610a242be2b5a19894ed67, type: 2}
-  - {fileID: 11400000, guid: f5d73d61d0e7731469441d14f0a80686, type: 2}
-  - {fileID: 11400000, guid: b816ebbbcb0b6f34c805d5142a8cf6b8, type: 2}
-  - {fileID: 11400000, guid: 11e10ddcab8db1c4d82cf9b6d6dbd03c, type: 2}
-  - {fileID: 11400000, guid: 88f9e44e44eef084e8226be9557d5832, type: 2}
-  - {fileID: 11400000, guid: ff77523e8cc925c4c9f6a29c3f1e9916, type: 2}
+  - {fileID: 11400000, guid: a4c056bbbc87af24d8977439845fd1c7, type: 2}
+  - {fileID: 11400000, guid: 42cd16d91a85c6346b2ea780f405743e, type: 2}
+  - {fileID: 11400000, guid: c0ac73b7daa28744dac9623247b7d574, type: 2}
+  - {fileID: 11400000, guid: a370170b3fb2a19469e2bbaa5dcb8116, type: 2}
+  - {fileID: 11400000, guid: bc411b641b2376e4fb22b18db7e3d68f, type: 2}
+  - {fileID: 11400000, guid: 1008a51749ec4b741802cff4ef517c8f, type: 2}
+  - {fileID: 11400000, guid: 67e4117499eb720408cff1d1cd0d6431, type: 2}
+  - {fileID: 11400000, guid: 63cd2b2cb121455409e8cd70b39d92e9, type: 2}
+  - {fileID: 11400000, guid: cdbc67527acf7ec4a99d026a1e406571, type: 2}
+  - {fileID: 11400000, guid: 588d59bfdcef99f47ab7e141ac6ce544, type: 2}
+  - {fileID: 11400000, guid: 9aea2adbcbbe64842b0dc3701304820b, type: 2}
+  - {fileID: 11400000, guid: 65404531bd823ab41bfd9ddb02c4e460, type: 2}
+  - {fileID: 11400000, guid: cc27817c33b17ad47aabcee70ea3c6c4, type: 2}
+  - {fileID: 11400000, guid: b8ec7428b9fc941458862698645fbd1a, type: 2}
+  - {fileID: 11400000, guid: 32efc9e54de758c4da9bdd087fb1fd79, type: 2}
+  - {fileID: 11400000, guid: 351ef17704503354a8384aca0e9a1afd, type: 2}
+  - {fileID: 11400000, guid: adab990d216a265429561c84790375a2, type: 2}
+  - {fileID: 11400000, guid: e3a32bffb10d6424780ee6f785c90f83, type: 2}
+  - {fileID: 11400000, guid: 817b7e54a00648545a573830cbdbd563, type: 2}
+  - {fileID: 11400000, guid: dfac7460b2beffb44b42f6acd403a7ac, type: 2}
   GridParentTransform: {fileID: 407690097}
   GridPrefab: {fileID: 2795684966890057258, guid: 1b5a755e635c5df419d3598a6943aa35, type: 3}
 --- !u!1001 &659998599
@@ -2862,9 +2863,9 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 180, y: 180}
-  m_Spacing: {x: 100, y: 100}
-  m_Constraint: 1
+  m_CellSize: {x: 140, y: 140}
+  m_Spacing: {x: 80, y: 80}
+  m_Constraint: 0
   m_ConstraintCount: 3
 --- !u!1001 &1435125599
 PrefabInstance:

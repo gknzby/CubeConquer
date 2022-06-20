@@ -20,6 +20,8 @@ namespace CubeConquer.Components
         private GridMain gridMain;
         private Vector2Int clickCellPos;
 
+        Dictionary<LevelData, bool> savedLevels = new();
+
         private void Start()
         {
             ManagerProvider.GetManager<IInputManager>().SetDefaultReceiver(this);
@@ -136,6 +138,10 @@ namespace CubeConquer.Components
             levelData.GridDimensions = gridMain.GetGridDimensions();
             gridMain.GetCellSize(out levelData.CellSize, out levelData.CellGap);
             levelData.cellTypeArray = gridMain.GetCellTypeArray();
+
+            UnityEditor.EditorUtility.SetDirty(levelData);
+            
+            //savedLevels.TryAdd(levelData, true);
         }
 
         public void LoadLevel()

@@ -9,24 +9,24 @@ namespace CubeConquer.Scriptables
     {
         [SerializeField] public ColorScheme colorScheme;
 
-        public string LevelName;
+        [SerializeField] public string LevelName;
 
         //[HideInInspector]
-        public Vector2Int GridDimensions;
+        [SerializeField] public Vector2Int GridDimensions;
 
         //[HideInInspector]
-        public Vector3 CellSize;
+        [SerializeField] public Vector3 CellSize;
 
         //[HideInInspector]
-        public Vector3 CellGap;
+        [SerializeField] public Vector3 CellGap;
 
         //[HideInInspector]
-        public GridCellType[] cellTypeArray;
+        [SerializeField] public GridCellType[] cellTypeArray;
 
         //[HideInInspector]
-        public bool FirstInit = true;
+        [SerializeField] public bool FirstInit = true;
 
-        public int PlaceableCount = 1;
+        [SerializeField] public int PlaceableCount = 1;
 
         public Dictionary<GridCellType, Material> GetMaterialDict()
         {
