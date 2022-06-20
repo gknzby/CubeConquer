@@ -9,6 +9,8 @@ namespace CubeConquer.Scriptables
     {
         [SerializeField] public ColorScheme colorScheme;
 
+        public string LevelName;
+
         //[HideInInspector]
         public Vector2Int GridDimensions;
 
@@ -23,6 +25,8 @@ namespace CubeConquer.Scriptables
 
         //[HideInInspector]
         public bool FirstInit = true;
+
+        public int PlaceableCount = 1;
 
         public Dictionary<GridCellType, Material> GetMaterialDict()
         {

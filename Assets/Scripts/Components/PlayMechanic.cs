@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using CubeConquer.Managers;
 using System;
+using CubeConquer.Scriptables;
 
 namespace CubeConquer.Components
 {
-    public class PlayMechanic : MonoBehaviour, IInputReceiver
+    public class PlayMechanic : MonoBehaviour, IInputReceiver, INewLevelListener
     {
-        [SerializeField] private int placeCount = 1;
+        private int placeCount = 1;
 
         private Queue<Vector2Int> openQ = new Queue<Vector2Int>();
         private GridMain gridMain = null;
@@ -18,30 +19,37 @@ namespace CubeConquer.Components
         private void Start()
         {
             ManagerProvider.GetManager<IInputManager>().SetDefaultReceiver(this);
+            AddSelfToTheList();
         }
 
         private void OnDestroy()
         {
             ManagerProvider.GetManager<IInputManager>()?.RemoveDefaultReceiver(this);
+            RemoveSelfFromTheList();
         }
 
         public void Cancel()
         {
-            //throw new System.NotImplementedException();
+            return;
         }
-
-        public void Click()
-        {
-            OnClick();
-        }
-
         public void Drag(Vector2 dragVec)
         {
-            //throw new System.NotImplementedException();
+            return;
         }
-
+        public void Click()
+        {
+            if(placeCount < 1)
+            {
+                return;
+            }
+            OnClick();
+        }
         public void Release()
         {
+            if(placeCount < 1)
+            {
+                return;
+            }
             OnRelease();
             if(placeCount == 0)
             {
@@ -74,6 +82,36 @@ namespace CubeConquer.Components
                 }
                 cr = StartCoroutine(ChangeColors(cellPosList));
             }
+
+            CountColors();
+        }
+
+        private void CountColors()
+        {
+            int[] colorCount = { 0, 0, 0, 0, 0 };
+
+            Vector2Int dimensions = gridMain.GetGridDimensions();
+
+            for(int i = 0; i < dimensions.x; i++)
+            {
+                for(int j = 0; j < dimensions.y; j++)
+                {
+                    int enumToInt = (int)gridMain.GetGridCellType(i, j);
+                    if (enumToInt >= 0)
+                    {
+                        colorCount[enumToInt]++;
+                    }
+                }
+            }
+
+            int bigSum = 0;
+            for(int i = 0; i < colorCount.Length; i++)
+            {
+                bigSum += colorCount[i];
+            }
+
+            Debug.Log(colorCount[1] + "/" + bigSum);
+            ManagerProvider.GetManager<IGameManager>().SendGameAction(GameAction.Win);
         }
 
         private void SpreadAround(ref List<Vector2Int> cellPosList, Vector2Int cellPos)
@@ -161,6 +199,24 @@ namespace CubeConquer.Components
 
             cellPos = Vector2Int.zero;
             return false;
+        }
+
+        public void AddSelfToTheList()
+        {
+            ManagerProvider.GetManager<ILevelManager>()?.AddNewLevelListener(this);
+        }
+
+        public void RemoveSelfFromTheList()
+        {
+            ManagerProvider.GetManager<ILevelManager>()?.RemoveNewLevelListener(this);
+        }
+
+        public void NewLevelData(LevelData levelData)
+        {
+            StopAllCoroutines();
+            openQ.Clear();
+            clickCellPos = new Vector2Int(-1, -1);
+            placeCount = levelData.PlaceableCount;
         }
     }
 }

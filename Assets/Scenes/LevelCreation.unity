@@ -442,7 +442,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &278041232
 Transform:
   m_ObjectHideFlags: 0
@@ -514,7 +514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6158ffe45c3a68e46afcc57f281addf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelData: {fileID: 11400000, guid: 196e400efcec9fd4f86a23d3389c8c3c, type: 2}
+  levelData: {fileID: 11400000, guid: 0d380b280b3cf264aa6f1e90088582a7, type: 2}
   activeCellType: 4
   newLevelDims: {x: 10, y: 10}
   newCellSize: {x: 1, y: 1, z: 1}

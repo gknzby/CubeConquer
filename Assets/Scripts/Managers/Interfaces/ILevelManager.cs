@@ -1,3 +1,4 @@
+using CubeConquer.Components;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,5 +10,8 @@ namespace CubeConquer.Managers
         int LevelCount { get; }
 
         bool LoadLevel(int index);
+
+        void AddNewLevelListener(INewLevelListener listener);
+        void RemoveNewLevelListener(INewLevelListener listener);
     }
 }

@@ -23,6 +23,7 @@ namespace CubeConquer.Components
         private void Start()
         {
             ManagerProvider.GetManager<IInputManager>().SetDefaultReceiver(this);
+            ManagerProvider.GetManager<IInputManager>().StartSendingInputs();
         }
 
         private void OnDestroy()
@@ -39,13 +40,10 @@ namespace CubeConquer.Components
         {
             OnClick();
         }
-
-
         public void Drag(Vector2 dragVec)
         {
-            throw new System.NotImplementedException();
+            return;
         }
-
         public void Release()
         {
             OnRelease();

@@ -13,7 +13,7 @@ namespace CubeConquer.Managers
 
         [SerializeField] private GameObject GridPrefab;
         private GridMain gridMain;
-
+        private List<INewLevelListener> levelListeners = new();
         public int LevelCount { get { return LevelList.Count; } }
 
         public bool LoadLevel(int index)
@@ -33,6 +33,7 @@ namespace CubeConquer.Managers
             gridMain.SetCellTypeArray(levelData.cellTypeArray);
             gridMain.GenerateGrid();
 
+            NotifyNewLevelListeners(levelData);
             return true;
         }
 
@@ -42,12 +43,28 @@ namespace CubeConquer.Managers
             {
                 GameObject.Destroy(gridMain.gameObject);
             }
-            while (GridParentTransform.childCount > 0)
-            {
-                GameObject.Destroy(GridParentTransform.GetChild(0).gameObject);
-            }
+            //while (GridParentTransform.childCount > 0)
+            //{
+            //    GameObject.Destroy(GridParentTransform.GetChild(0).gameObject);
+            //}
 
             return GameObject.Instantiate(GridPrefab, GridParentTransform).GetComponent<GridMain>();
+        }
+
+        public void AddNewLevelListener(INewLevelListener listener)
+        {
+            levelListeners.Add(listener);
+        }
+        public void RemoveNewLevelListener(INewLevelListener listener)
+        {
+            levelListeners.Remove(listener);
+        }
+        private void NotifyNewLevelListeners(LevelData levelData)
+        {
+            foreach (INewLevelListener inll in levelListeners)
+            {
+                inll.NewLevelData(levelData);
+            }
         }
 
         #region Unity Functions => Awake, OnDestroy

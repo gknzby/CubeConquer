@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aa002047fb0daa42a8b9d798fe989fe, type: 3}
+  m_Name: Level 1
+  m_EditorClassIdentifier: 
+  colorScheme: {fileID: 11400000, guid: c7c5e2aa65ff5c04bbe3d44da3dc226d, type: 2}
+  LevelName: Level 1
+  GridDimensions: {x: 9, y: 9}
+  CellSize: {x: 1, y: 1, z: 1}
+  CellGap: {x: 0, y: 0, z: 0}
+  cellTypeArray: fefffffffefffffffefffffffefffffffefffffffefffffffefffffffefffffffefffffffeffffff00000000000000000000000000000000000000000000000000000000fefffffffeffffff00000000000000000000000000000000000000000000000000000000fefffffffeffffff00000000000000000000000000000000000000000000000000000000fefffffffeffffff00000000000000000000000000000000000000000000000000000000fefffffffeffffff00000000000000000000000000000000000000000000000000000000fefffffffeffffff00000000000000000000000000000000000000000000000000000000fefffffffeffffff00000000000000000000000000000000000000000000000002000000fefffffffefffffffefffffffefffffffefffffffefffffffefffffffefffffffefffffffeffffff
+  FirstInit: 1
+  PlaceableCount: 1

@@ -62,10 +62,12 @@ namespace CubeConquer.Managers
                     break;
             }
 
-            if (tickCoroutine == null)
+            if (tickCoroutine != null)
             {
-                tickCoroutine = StartCoroutine(Tick());
+                StopCoroutine(tickCoroutine);
             }
+
+            tickCoroutine = StartCoroutine(Tick());
         }
 
         public void StopSendingInputs()
