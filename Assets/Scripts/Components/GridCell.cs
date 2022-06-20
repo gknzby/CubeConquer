@@ -4,21 +4,24 @@ using UnityEngine;
 
 namespace CubeConquer.Components
 {
+    [System.Serializable]
     public enum GridCellType
     {
         Unreachable = -2,
         Wall = -1,
         Blank = 0,
-        ColorA = 1,
-        ColorB = 2,
-        ColorC = 3,
-        ColorD = 4
+        PlayerColor = 1,
+        ColorA = 2,
+        ColorB = 3,
+        ColorC = 4
     }
     public class GridCell : MonoBehaviour
     {
+        [SerializeField] private GameObject TargetObject;
+
         public void ChangeColor(Material colorMaterial)
         {
-            this.GetComponent<Renderer>().material = colorMaterial;
+            TargetObject.GetComponent<Renderer>().material = colorMaterial;
         }
     }
 }

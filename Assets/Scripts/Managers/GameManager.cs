@@ -19,6 +19,7 @@ namespace CubeConquer.Managers
         private void Start()
         {
             ManagerProvider.GetManager<IInputManager>().StartSendingInputs();
+            ManagerProvider.GetManager<ILevelManager>().LoadLevel(0);
         }
         private void OnDestroy()
         {

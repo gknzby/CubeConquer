@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2795684966890057258
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2795684966890057261}
+  - component: {fileID: 2795684966890057260}
+  - component: {fileID: 2795684966890057263}
+  m_Layer: 6
+  m_Name: GridMain
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2795684966890057261
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2795684966890057258}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2795684966890057260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2795684966890057258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58ec05a529e650544bc050635a1490df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GridChildPrefab: {fileID: 5521834110464758313, guid: a9b4c9b373b020746873365bdc066b96, type: 3}
+  TempDims: {x: 30, y: 20}
+  UnreachableMat: {fileID: 2100000, guid: 3c6d7d5cf734eb44198c6611fa8b1256, type: 2}
+  WallMat: {fileID: 2100000, guid: 8a80f536eae730b499aa8fe28508e79f, type: 2}
+  BlankMat: {fileID: 2100000, guid: ba6c94e23c604d34fa3a8fbb8e4c0eea, type: 2}
+  ColorAMat: {fileID: 2100000, guid: 54880d20fee2d4046ba28a6438a14ad1, type: 2}
+  ColorBMat: {fileID: 2100000, guid: 76f3b107fc65ac64bb125b1373e5115e, type: 2}
+  ColorCMat: {fileID: 2100000, guid: fb76bfdcc8c51ad4a93a4daa5aeb5549, type: 2}
+  ColorDMat: {fileID: 2100000, guid: 8606ce6cd57d3514caf2b2633d29f893, type: 2}
+  TempCellSize: {x: 1, y: 1, z: 1}
+  TempCellGap: {x: 0.2, y: 0.2, z: 0}
+--- !u!65 &2795684966890057263
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2795684966890057258}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

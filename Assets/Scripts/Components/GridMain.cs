@@ -6,89 +6,124 @@ namespace CubeConquer.Components
 {
     public class GridMain : MonoBehaviour
     {
-        #region Passed Variables
         [SerializeField] private GameObject GridChildPrefab;
 
-        private Vector2Int gridDimensions;
+        private Vector2Int gridDimensions; //Required
         private Vector3 gridOrigin;
-        #endregion
 
-        #region Test Variables
-        [SerializeField] private Vector2Int TempDims;
+        private GridCell[,] cellArray;
+        private GridCellType[,] cellTypeArray; //Required
 
-        [SerializeField] private Material UnreachableMat;
-        [SerializeField] private Material WallMat;
-        [SerializeField] private Material BlankMat;
-        [SerializeField] private Material ColorAMat;
-        [SerializeField] private Material ColorBMat;
-        [SerializeField] private Material ColorCMat;
-        [SerializeField] private Material ColorDMat;
-        private Dictionary<GridCellType, Material> typeColor;
+        private Vector3 gridSize;
+        private Vector3 cellSize; //Required
+        private Vector3 cellGap; //Required
 
-        [SerializeField] private Vector3 TempCellSize = Vector3.one;
-        [SerializeField] private Vector3 TempCellGap = new Vector3(0.1f, 0.1f, 0.1f);
-        #endregion
+        private Dictionary<GridCellType, Material> cellTypeMaterials; //Required
 
-        #region Beklemede
-        private GridCell[,] gridCells;
-        private GridCellType[,] gridCellsType;
+        //#region Test Variables
+        //[SerializeField] private Vector2Int TempDims;
 
-        private Vector3 cellSize;
-        private Vector3 cellGap;
-        #endregion
+        //[SerializeField] private Material UnreachableMat;
+        //[SerializeField] private Material WallMat;
+        //[SerializeField] private Material BlankMat;
+        //[SerializeField] private Material ColorAMat;
+        //[SerializeField] private Material ColorBMat;
+        //[SerializeField] private Material ColorCMat;
+        //[SerializeField] private Material ColorDMat;
 
-        #region TEST FUNCS
-        private void Awake()
-        {
-            TestSetup();
-        }
-        private void TestSetup()
-        {
-            SetMatDict();
-            SetGridValues();
-            GenerateGrid();
-        }
-        private void SetGridValues()
-        {
-            SetGridSize(this.TempDims);
-            SetCellSize(this.TempCellSize, this.TempCellGap);
-            gridOrigin = transform.position + cellSize / 2f;
-            SealBorders();
-            SetEnemies();
-        }
-        private void SetMatDict()
-        {
-            typeColor = new Dictionary<GridCellType, Material>();
-            typeColor.Add(GridCellType.Unreachable, UnreachableMat);
-            typeColor.Add(GridCellType.Wall, WallMat);
-            typeColor.Add(GridCellType.Blank, BlankMat);
-            typeColor.Add(GridCellType.ColorA, ColorAMat);
-            typeColor.Add(GridCellType.ColorB, ColorBMat);
-            typeColor.Add(GridCellType.ColorC, ColorCMat);
-            typeColor.Add(GridCellType.ColorD, ColorDMat);
-        }
+        //[SerializeField] private Vector3 TempCellSize = Vector3.one;
+        //[SerializeField] private Vector3 TempCellGap = new Vector3(0.1f, 0.1f, 0.1f);
+        //#endregion
 
-        private void SetEnemies()
-        {
-            gridCellsType[3, 5] = GridCellType.ColorB;
-            gridCellsType[7, 2] = GridCellType.ColorC;
-            gridCellsType[5, 5] = GridCellType.ColorD;
-        }
-        #endregion
+        //#region TEST FUNCS
+        //private void Awake()
+        //{
+        //    //TestSetup();
+        //}
+        //private void TestSetup()
+        //{
+        //    SetMatDict();
+        //    SetGridValues();
+        //    GenerateGrid();
+        //}
+        //private void SetGridValues()
+        //{
+        //    SetGridDimensions(this.TempDims);
+        //    SetCellSize(this.TempCellSize, this.TempCellGap);
+        //    CalculateGridOrigin();
+        //    SealBorders();
+        //    SetEnemies();
+        //}
+        //private void SetMatDict()
+        //{
+        //    cellTypeMaterials = new Dictionary<GridCellType, Material>();
+        //    cellTypeMaterials.Add(GridCellType.Unreachable, UnreachableMat);
+        //    cellTypeMaterials.Add(GridCellType.Wall, WallMat);
+        //    cellTypeMaterials.Add(GridCellType.Blank, BlankMat);
+        //    cellTypeMaterials.Add(GridCellType.ColorA, ColorAMat);
+        //    cellTypeMaterials.Add(GridCellType.ColorB, ColorBMat);
+        //    cellTypeMaterials.Add(GridCellType.ColorC, ColorCMat);
+        //    cellTypeMaterials.Add(GridCellType.ColorD, ColorDMat);
+        //}
+
+
+        //private void SetEnemies()
+        //{
+        //    cellTypeList[3][5] = GridCellType.ColorB;
+        //    cellTypeList[7][2] = GridCellType.ColorC;
+        //    cellTypeList[5][5] = GridCellType.ColorD;
+        //}
+        //#endregion
 
         #region Passed Funcs
-        public void SetGridSize(int width, int height)
+
+        private void CalculateGridOrigin()
+        {
+            gridSize = new Vector3(cellSize.x * gridDimensions.x + cellGap.x * (gridDimensions.x - 1),
+                                    cellSize.y * gridDimensions.y + cellGap.y * (gridDimensions.y - 1),
+                                    0f);
+            gridOrigin = transform.position - gridSize / 2f;
+
+            gridSize.z = cellSize.z;
+        }
+
+        public void SetGridDimensions(int width, int height)
         {
             gridDimensions.x = width;
             gridDimensions.y = height;
 
-            gridCells = new GridCell[width, height];
-            gridCellsType = new GridCellType[width, height];
+            cellArray = new GridCell[width, height];
+
+            cellTypeArray = new GridCellType[width, height];
         }
 
-        public void SetGridSize(Vector2Int gridDims)
+        public Vector2Int GetGridDimensions()
         {
-            SetGridSize(gridDims.x, gridDims.y);
+            return gridDimensions;
+        }
+
+        public void SetGridDimensions(Vector2Int gridDims)
+        {
+            SetGridDimensions(gridDims.x, gridDims.y);
+        }
+
+        public void SetCellTypeArray(GridCellType[] cellTypeArr)
+        {
+            for(int i = 0; i < gridDimensions.x * gridDimensions.y; i++)
+            {
+                cellTypeArray[i/gridDimensions.y, i%gridDimensions.y] = cellTypeArr[i];
+            }
+        }
+
+        public GridCellType[] GetCellTypeArray()
+        {
+            GridCellType[] cellTypeArr = new GridCellType[gridDimensions.x * gridDimensions.y];
+            for(int i = 0; i < cellTypeArr.Length; i++)
+            {
+                cellTypeArr[i] = cellTypeArray[i / gridDimensions.y, i % gridDimensions.y];
+            }
+
+            return cellTypeArr;
         }
 
         public void SetCellSize(Vector3 cellSize, Vector3 cellGap)
@@ -97,17 +132,28 @@ namespace CubeConquer.Components
             this.cellGap = cellGap;
         }
 
-        private void SealBorders()
+        public void GetCellSize(out Vector3 cellSize, out Vector3 cellGap)
+        {
+            cellSize = this.cellSize;
+            cellGap = this.cellGap;
+        }
+
+        public void SetMaterialDict(Dictionary<GridCellType, Material> materialDict)
+        {
+            this.cellTypeMaterials = materialDict;
+        }
+
+        public void SealBorders()
         {
             for (int i = 0; i < gridDimensions.x; i++)
             {
-                gridCellsType[i, 0] = GridCellType.Unreachable;
-                gridCellsType[i, gridDimensions.y - 1] = GridCellType.Unreachable;
+                cellTypeArray[i, 0] = GridCellType.Unreachable;
+                cellTypeArray[i, gridDimensions.y - 1] = GridCellType.Unreachable;
             }
             for (int j = 0; j < gridDimensions.y; j++)
             {
-                gridCellsType[0, j] = GridCellType.Unreachable;
-                gridCellsType[gridDimensions.x - 1, j] = GridCellType.Unreachable;
+                cellTypeArray[0, j] = GridCellType.Unreachable;
+                cellTypeArray[gridDimensions.x - 1, j] = GridCellType.Unreachable;
             }
         }
         #endregion
@@ -115,36 +161,31 @@ namespace CubeConquer.Components
 
         public void GenerateGrid()
         {
+            CalculateGridOrigin();
+
             for(int i = 0; i < gridDimensions.x; i++)
             {
                 for(int j = 0; j < gridDimensions.y; j++)
                 {
-                    CreateElement(out gridCells[i, j], i, j);
-                    PositionElement(gridCells[i, j], i, j);
+                    CreateElement(out cellArray[i, j], i, j);
+                    PositionElement(cellArray[i, j], i, j);
                 }
             }
-
-            BoxCollider bc = this.GetComponent<BoxCollider>();
-            Vector3 bcSize = GetBCSize();
-
-            bc.size = bcSize;
-            bc.center = gridOrigin + (bcSize - cellSize )/ 2f ;
+                        
+            CalculateColliderDimensions();
         }
 
-        private Vector3 GetBCSize()
+        private void CalculateColliderDimensions()
         {
-            Vector3 bcSize = Vector3.one;
+            BoxCollider boxCollider = this.GetComponent<BoxCollider>();
 
-            bcSize.x = cellSize.x * gridDimensions.x + cellGap.x * (gridDimensions.x - 1);
-            bcSize.y = cellSize.y * gridDimensions.y + cellGap.y * (gridDimensions.y - 1);
-
-            return bcSize;
+            boxCollider.size = gridSize;
         }
 
         private void CreateElement(out GridCell gridChild, int x, int y)
         {
             gridChild = GameObject.Instantiate(GridChildPrefab, this.transform).GetComponent<GridCell>();
-            gridChild.ChangeColor(typeColor[gridCellsType[x,y]]);
+            gridChild.ChangeColor(cellTypeMaterials[cellTypeArray[x, y]]);
         }
 
         private void PositionElement(GridCell gridChild, int x, int y)
@@ -156,33 +197,29 @@ namespace CubeConquer.Components
             gridChild.transform.position = childPos;
         }
 
-        public void ChangeType(int x, int y, GridCellType gt)
+        public void ChangeType(int x, int y, GridCellType cellType)
         {
-            gridCellsType[x, y] = gt;
+            cellTypeArray[x, y] = cellType;
         }
 
-        public void PlaceColor(int x, int y)
+        public bool IsUnreachable(Vector2Int cellPos)
         {
-            gridCells[x, y].ChangeColor(typeColor[GridCellType.ColorA]);
+            return IsUnreachable(cellPos.x, cellPos.y);
         }
 
-        public void ApplyColor(Vector2Int cellPos)
+        public bool IsUnreachable(int x, int y)
         {
-            gridCells[cellPos.x, cellPos.y].ChangeColor(typeColor[gridCellsType[cellPos.x, cellPos.y]]);
+            return cellTypeArray[x, y] == GridCellType.Unreachable;
         }
 
         public bool IsPlaceable(Vector2Int cellPos)
         {
             return IsPlaceable(cellPos.x, cellPos.y);
         }
+
         public bool IsPlaceable(int x, int y)
         {
-            return gridCellsType[x, y] == GridCellType.Blank;
-        }
-
-        public GridCell GetGridChild(int x, int y)
-        {
-            return gridCells[x, y];
+            return cellTypeArray[x, y] == GridCellType.Blank;
         }
 
         public List<Vector2Int> GetColoredChilds()
@@ -193,7 +230,7 @@ namespace CubeConquer.Components
             {
                 for(int j = 0; j < gridDimensions.y; j++)
                 {
-                    if((int)gridCellsType[i, j] > 0)
+                    if((int)cellTypeArray[i, j] > 0)
                     {
                         cellPosList.Add(new Vector2Int(i, j));
                     }
@@ -203,27 +240,30 @@ namespace CubeConquer.Components
             return cellPosList;
         }
 
-        public Vector2Int GetXY(Vector3 hitPos)
+        public Vector2Int WorldToCellPos(Vector3 worldPos)
         {
-            Vector2Int newVec = Vector2Int.zero;
+            Vector2Int cellPos = Vector2Int.zero;
 
-            Vector3 relativePos = hitPos - transform.position;
+            Vector3 relativePos = worldPos - gridOrigin;
 
-            newVec.x = Mathf.FloorToInt(relativePos.x/(cellSize.x + cellGap.x));
-            newVec.y = Mathf.FloorToInt(relativePos.y/(cellSize.y + cellGap.y));
+            cellPos.x = Mathf.FloorToInt(relativePos.x/(cellSize.x + cellGap.x));
+            cellPos.y = Mathf.FloorToInt(relativePos.y/(cellSize.y + cellGap.y));
 
-            return newVec;
+            return cellPos;
         }
-
-        public void ApplyPlayerColor(Vector2Int cellPos)
-        {
-            gridCellsType[cellPos.x, cellPos.y] = GridCellType.ColorA;
-            ApplyColor(cellPos);
-        }
-
         public GridCellType GetGridCellType(int x, int y)
         {
-            return gridCellsType[x, y];
+            return cellTypeArray[x, y];
+        }
+
+        public void ApplyColor(Vector2Int cellPos)
+        {
+            cellArray[cellPos.x, cellPos.y].ChangeColor(cellTypeMaterials[cellTypeArray[cellPos.x, cellPos.y]]);
+        }
+        public void ApplyColor(Vector2Int cellPos, GridCellType cellType)
+        {
+            cellTypeArray[cellPos.x, cellPos.y] = cellType;
+            ApplyColor(cellPos);
         }
     }
 }

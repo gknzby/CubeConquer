@@ -13,6 +13,8 @@ namespace CubeConquer.Components
         private Queue<Vector2Int> openQ = new Queue<Vector2Int>();
         private GridMain gridMain = null;
 
+        private Vector2Int clickCellPos;
+
         private void Start()
         {
             ManagerProvider.GetManager<IInputManager>().SetDefaultReceiver(this);
@@ -40,6 +42,7 @@ namespace CubeConquer.Components
 
         public void Release()
         {
+            OnRelease();
             if(placeCount == 0)
             {
                 StartCoroutine(SpreadColors());
@@ -60,7 +63,7 @@ namespace CubeConquer.Components
 
             while (openQ.Count > 0)
             {
-                //Debug.Log(openQ.Count);
+                Debug.Log(openQ.Count);
                 yield return cr;
                 cellPosList = new List<Vector2Int>();
                 Queue<Vector2Int> tempQuery = new Queue<Vector2Int>(openQ);
@@ -104,24 +107,37 @@ namespace CubeConquer.Components
             {
                 gridMain.ApplyColor(cellPos);
             }
+            //yield return null;
             yield return new WaitForSeconds(0.2f);
         }
 
         private void OnClick()
         {
             Vector2Int cellPos;
-            if(GetGetGet(out cellPos) && gridMain.IsPlaceable(cellPos))
+            if(GetCellPos(out cellPos) 
+                && gridMain.IsPlaceable(cellPos))
             {
-                gridMain.ApplyPlayerColor(cellPos);
-                placeCount--;
-                openQ.Enqueue(cellPos);
+                clickCellPos = cellPos;
             }
             else
             {
+                clickCellPos = new Vector2Int(-1, -1);
                 Debug.Log("None");
             }
         }
 
+        private void OnRelease()
+        {
+            Vector2Int cellPos;
+            if (GetCellPos(out cellPos) 
+                && gridMain.IsPlaceable(cellPos)
+                && clickCellPos == cellPos)
+            {
+                placeCount--;
+                gridMain.ApplyColor(cellPos, GridCellType.PlayerColor);
+                openQ.Enqueue(cellPos);
+            }
+        }
 
         private Ray GetScreenRay()
         {
@@ -131,14 +147,14 @@ namespace CubeConquer.Components
             return mainCam.ScreenPointToRay(mousePos);
         }
 
-        private bool GetGetGet(out Vector2Int cellPos)
+        private bool GetCellPos(out Vector2Int cellPos)
         {
             Ray screenRay = GetScreenRay();
             RaycastHit hit;
 
             if(Physics.Raycast(screenRay, out hit) && hit.transform.TryGetComponent<GridMain>(out gridMain))
             {
-                cellPos = gridMain.GetXY(hit.point);
+                cellPos = gridMain.WorldToCellPos(hit.point);
 
                 return true;
             }
