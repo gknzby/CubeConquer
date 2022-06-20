@@ -50,7 +50,7 @@ namespace CubeConquer.Managers
 
         public void StartSendingInputs()
         {
-            Debug.Log("Start sending inputs");
+            //Debug.Log("Start sending inputs");
             switch (inputState)
             {
                 case InputState.Sending:
@@ -118,7 +118,7 @@ namespace CubeConquer.Managers
         {
             if (inputState == InputState.Sending)
             {
-                Debug.Log("send release");
+                //Debug.Log("send release");
                 SendRelease();
                 inputState = InputState.Idle;
             }
@@ -126,7 +126,7 @@ namespace CubeConquer.Managers
 
         private void SendClick()
         {
-            Debug.Log("Send Click");
+            //Debug.Log("Send Click");
             ActiveReceiver?.Click();
         }
         private void SendRelease()

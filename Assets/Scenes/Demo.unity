@@ -169,6 +169,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GridChildPrefab: {fileID: 5521834110464758313, guid: a9b4c9b373b020746873365bdc066b96, type: 3}
+  UnreachableMat: {fileID: 2100000, guid: 3c6d7d5cf734eb44198c6611fa8b1256, type: 2}
+  WallMat: {fileID: 2100000, guid: 8a80f536eae730b499aa8fe28508e79f, type: 2}
+  BlankMat: {fileID: 2100000, guid: ba6c94e23c604d34fa3a8fbb8e4c0eea, type: 2}
+  ColorAMat: {fileID: 2100000, guid: 54880d20fee2d4046ba28a6438a14ad1, type: 2}
+  ColorBMat: {fileID: 2100000, guid: 76f3b107fc65ac64bb125b1373e5115e, type: 2}
+  ColorCMat: {fileID: 2100000, guid: fb76bfdcc8c51ad4a93a4daa5aeb5549, type: 2}
+  ColorDMat: {fileID: 2100000, guid: 8606ce6cd57d3514caf2b2633d29f893, type: 2}
 --- !u!65 &333697190
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -431,7 +438,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.3, y: 4.6, z: -15.3}
+  m_LocalPosition: {x: 11, y: 13, z: -25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -482,6 +489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3e3d1ac91586004cbcdd9dbb3b2d655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  placeCount: 50
 --- !u!1 &1643174537
 GameObject:
   m_ObjectHideFlags: 0

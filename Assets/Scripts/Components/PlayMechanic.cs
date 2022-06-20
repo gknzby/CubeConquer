@@ -10,7 +10,7 @@ namespace CubeConquer.Components
     {
         [SerializeField] private int placeCount = 1;
 
-        private Queue<GridChild> openQ = new Queue<GridChild>();
+        private Queue<Vector2Int> openQ = new Queue<Vector2Int>();
         private GridMain gridMain = null;
 
         private void Start()
@@ -22,8 +22,6 @@ namespace CubeConquer.Components
         {
             ManagerProvider.GetManager<IInputManager>()?.RemoveDefaultReceiver(this);
         }
-
-        private bool isPlaceable = false;
 
         public void Cancel()
         {
@@ -47,74 +45,76 @@ namespace CubeConquer.Components
                 StartCoroutine(SpreadColors());
             }
         }
-        int counter = 0;
+
         private IEnumerator SpreadColors()
         {
             yield return null;
 
-            List<GridChild> ll = gridMain.GetColoredChilds();
-            foreach (GridChild gridiChildi in ll)
+            List<Vector2Int> cellPosList = gridMain.GetColoredChilds();
+            foreach (Vector2Int cellPos in cellPosList)
             {
-                openQ.Enqueue(gridiChildi);
+                openQ.Enqueue(cellPos);
             }
 
-            Coroutine cr = StartCoroutine(ChangeColors(new List<GridChild>()));
+            Coroutine cr = StartCoroutine(ChangeColors(new List<Vector2Int>()));
 
             while (openQ.Count > 0)
             {
-                Debug.Log(counter++);
+                //Debug.Log(openQ.Count);
                 yield return cr;
-                List<GridChild> gcList = new List<GridChild>();
-                Queue<GridChild> tempQ = new Queue<GridChild>(openQ);
+                cellPosList = new List<Vector2Int>();
+                Queue<Vector2Int> tempQuery = new Queue<Vector2Int>(openQ);
                 openQ.Clear();
-                foreach (GridChild sp in tempQ)
+                foreach (Vector2Int cellPos in tempQuery)
                 {
-                    SpreadAround(gcList, sp);
+                    SpreadAround(ref cellPosList, cellPos);
                 }
-                cr = StartCoroutine(ChangeColors(gcList));
+                cr = StartCoroutine(ChangeColors(cellPosList));
             }
         }
 
-        private List<GridChild> SpreadAround(List<GridChild> gcList, GridChild sp)
+        private void SpreadAround(ref List<Vector2Int> cellPosList, Vector2Int cellPos)
         {
-            int x = sp.x, y = sp.y;
-
-            SpreadChild(x - 1, y, sp.gridChildType, gcList);
-            SpreadChild(x, y - 1, sp.gridChildType, gcList);
-            SpreadChild(x + 1, y, sp.gridChildType, gcList);
-            SpreadChild(x, y + 1, sp.gridChildType, gcList);
-
-            return gcList;
+            SpreadAround(ref cellPosList, cellPos.x, cellPos.y);
         }
 
-        private void SpreadChild(int x, int y, GridChildType gp, List<GridChild> gcList)
+        private void SpreadAround(ref List<Vector2Int> cellPosList, int x, int y)
+        {
+            GridCellType gridCellType = gridMain.GetGridCellType(x, y);
+
+            SpreadChild(ref cellPosList, x - 1, y, gridCellType);
+            SpreadChild(ref cellPosList, x, y - 1, gridCellType);
+            SpreadChild(ref cellPosList, x + 1, y, gridCellType);
+            SpreadChild(ref cellPosList, x, y + 1, gridCellType);
+        }
+
+        private void SpreadChild(ref List<Vector2Int> cellPosList, int x, int y, GridCellType gridCellType)
         {
             if (gridMain.IsPlaceable(x, y))
             {
-                gridMain.ChangeType(x, y, gp);
-                gcList.Add(gridMain.GetGridChild(x, y));
-                openQ.Enqueue(gridMain.GetGridChild(x, y));
+                gridMain.ChangeType(x, y, gridCellType);
+                cellPosList.Add(new Vector2Int(x, y));
+                openQ.Enqueue(new Vector2Int(x, y));
             }
         }
 
-        private IEnumerator ChangeColors(List<GridChild> grs)
+        private IEnumerator ChangeColors(List<Vector2Int> cellPosList)
         {
-            foreach(GridChild kvp in grs)
+            foreach(Vector2Int cellPos in cellPosList)
             {
-                gridMain.ApplyColor(kvp.x, kvp.y);
+                gridMain.ApplyColor(cellPos);
             }
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.2f);
         }
 
         private void OnClick()
         {
-            GridChild gridChild;
-            if(GetGetGet(out gridChild, out gridMain) && gridMain.IsPlaceable(gridChild.x, gridChild.y))
+            Vector2Int cellPos;
+            if(GetGetGet(out cellPos) && gridMain.IsPlaceable(cellPos))
             {
-                gridMain.ChangeType(gridChild.x, gridChild.y, GridChildType.ColorA);
-                gridMain.PlaceColor(gridChild.x, gridChild.y);
+                gridMain.ApplyPlayerColor(cellPos);
                 placeCount--;
-                openQ.Enqueue(gridChild);
+                openQ.Enqueue(cellPos);
             }
             else
             {
@@ -131,56 +131,20 @@ namespace CubeConquer.Components
             return mainCam.ScreenPointToRay(mousePos);
         }
 
-        private bool GetGetGet(out GridChild gc, out GridMain gm)
+        private bool GetGetGet(out Vector2Int cellPos)
         {
             Ray screenRay = GetScreenRay();
-            RaycastHit[] hits = null;
+            RaycastHit hit;
 
-            gc = null;
-            gm = null;
-
-            if((hits = Physics.RaycastAll(screenRay)) != null && hits.Length > 1)
+            if(Physics.Raycast(screenRay, out hit) && hit.transform.TryGetComponent<GridMain>(out gridMain))
             {
-                foreach (RaycastHit hit in hits)
-                {
-                    gc = (gc == null) ? ((hit.transform.GetComponent<GridChild>() != null) ? hit.transform.GetComponent<GridChild>() : gc) : gc;
-                    gm = (gm == null) ? ((hit.transform.GetComponent<GridMain>() != null) ? hit.transform.GetComponent<GridMain>() : gm) : gm;
-                }
+                cellPos = gridMain.GetXY(hit.point);
+
+                return true;
             }
 
-            return (gc != null && gm != null) ? true : false;
+            cellPos = Vector2Int.zero;
+            return false;
         }
-
-        //private bool GetGridChild(out GridChild gridChild)
-        //{
-        //    Ray screenRay = GetScreenRay();
-        //    RaycastHit hit;
-        //    LayerMask gridChildLayer = LayerMask.NameToLayer("GridChild");
-
-        //    if (Physics.Raycast(screenRay, out hit, maxDistance: 1000f, layerMask: ~gridChildLayer)
-        //        && hit.transform.TryGetComponent<GridChild>(out gridChild))
-        //    {
-        //        return true;
-        //    }
-
-        //    gridChild = null;
-        //    return false;
-        //}
-
-        //private bool GetGridMain(out GridMain gridMain)
-        //{
-        //    Ray screenRay = GetScreenRay();
-        //    RaycastHit hit;
-        //    LayerMask gridMainLayer = LayerMask.NameToLayer("GridMain");
-
-        //    if (Physics.Raycast(screenRay, out hit, maxDistance : 1000f, layerMask : ~gridMainLayer)
-        //        && hit.transform.TryGetComponent<GridMain>(out gridMain))
-        //    {
-        //        return true;
-        //    }
-
-        //    gridMain = null;
-        //    return false;
-        //}
     }
 }
